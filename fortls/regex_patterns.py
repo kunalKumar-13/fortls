@@ -43,7 +43,12 @@ class FortranRegularExpressions:
     SUBMOD: Pattern = compile(r"[ ]*SUBMODULE[ ]*\(", I)
     END_SMOD: Pattern = compile(r"SUBMODULE", I)
     END_PRO: Pattern = compile(r"(MODULE)?[ ]*PROCEDURE", I)
-    BLOCK: Pattern = compile(r"[ ]*([a-z_]\w*[ ]*:[ ]*)?BLOCK|CRITICAL(?!\w)", I)
+    # The alternation has to be grouped: written as `...?BLOCK|CRITICAL(?!\w)`
+    # the `|` splits the whole pattern, so the trailing guard applied only to
+    # CRITICAL and BLOCK matched the start of any identifier beginning with
+    # "block" -- `blocked_vector = ...` was read as a BLOCK construct. The group
+    # is non-capturing so the construct-name label stays group(1).
+    BLOCK: Pattern = compile(r"[ ]*([a-z_]\w*[ ]*:[ ]*)?(?:BLOCK|CRITICAL)(?!\w)", I)
     END_BLOCK: Pattern = compile(r"BLOCK|CRITICAL", I)
     DO: Pattern = compile(r"[ ]*(?:[a-z_]\w*[ ]*:[ ]*)?DO([ ]+[0-9]*|$)", I)
     END_DO: Pattern = compile(r"DO", I)

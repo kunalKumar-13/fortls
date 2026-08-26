@@ -4,6 +4,9 @@
 
 ### Fixed
 
+- Fixed identifiers starting with `block` (e.g. `blocked_vector`) being parsed as
+  `BLOCK` constructs, and allowed a construct name on `CRITICAL`
+  ([#532](https://github.com/fortran-lang/fortls/issues/532))
 - Fixed missing registered capability for `textDocument/documentHighlight`
   ([#421](https://github.com/fortran-lang/fortls/issues/421s))
 
